@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beautiful Custom Scrollbars</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .scrollbar-demo {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .demo-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+            text-align: center;
+        }
+
+        .scroll-content {
+            height: 250px;
+            overflow-y: auto;
+            padding: 15px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        /* Modern Gradient Scrollbar */
+        .modern-scrollbar::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .modern-scrollbar::-webkit-scrollbar-track {
+            background: linear-gradient(45deg, #f1f1f1, #e8e8e8);
+            border-radius: 10px;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .modern-scrollbar::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .modern-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #5a6fd8, #6a42a0);
+            transform: scale(1.1);
+        }
+
+        /* Neon Glow Scrollbar */
+        .neon-scrollbar::-webkit-scrollbar {
+            width: 14px;
+        }
+
+        .neon-scrollbar::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 10px;
+        }
+
+        .neon-scrollbar::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            border-radius: 10px;
+            box-shadow: 
+                0 0 10px #00ffff,
+                0 0 20px #ff00ff,
+                inset 0 0 10px rgba(255, 255, 255, 0.1);
+            animation: neonPulse 2s ease-in-out infinite alternate;
+        }
+
+        .neon-scrollbar::-webkit-scrollbar-thumb:hover {
+            box-shadow: 
+                0 0 20px #00ffff,
+                0 0 30px #ff00ff,
+                inset 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes neonPulse {
+            0% { box-shadow: 0 0 5px #00ffff, 0 0 10px #ff00ff; }
+            100% { box-shadow: 0 0 15px #00ffff, 0 0 25px #ff00ff; }
+        }
+
+        /* Minimal Thin Scrollbar */
+        .minimal-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .minimal-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .minimal-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+            transition: all 0.2s ease;
+        }
+
+        .minimal-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.6);
+            width: 8px;
+        }
+
+        /* Glass Morphism Scrollbar */
+        .glass-scrollbar::-webkit-scrollbar {
+            width: 16px;
+        }
+
+        .glass-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .glass-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .glass-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(0.95);
+        }
+
+        /* Rainbow Scrollbar */
+        .rainbow-scrollbar::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .rainbow-scrollbar::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+
+        .rainbow-scrollbar::-webkit-scrollbar-thumb {
+            background: linear-gradient(
+                45deg,
+                #ff0000 0%,
+                #ff8000 16.66%,
+                #ffff00 33.33%,
+                #80ff00 50%,
+                #00ff80 66.66%,
+                #0080ff 83.33%,
+                #8000ff 100%
+            );
+            border-radius: 10px;
+            animation: rainbowShift 3s linear infinite;
+        }
+
+        @keyframes rainbowShift {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        /* Dark Theme Scrollbar */
+        .dark-scrollbar {
+            background: #2d2d2d;
+            color: #e0e0e0;
+        }
+
+        .dark-scrollbar::-webkit-scrollbar {
+            width: 14px;
+        }
+
+        .dark-scrollbar::-webkit-scrollbar-track {
+            background: #404040;
+            border-radius: 10px;
+        }
+
+        .dark-scrollbar::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #606060, #808080);
+            border-radius: 10px;
+            border: 2px solid #404040;
+            transition: all 0.3s ease;
+        }
+
+        .dark-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #707070, #909090);
+            border-color: #505050;
+        }
+
+        /* Firefox Scrollbar Support */
+        .modern-scrollbar,
+        .minimal-scrollbar,
+        .glass-scrollbar,
+        .dark-scrollbar {
+            scrollbar-width: thin;
+            scrollbar-color: #667eea #e8e8e8;
+        }
+
+        .dark-scrollbar {
+            scrollbar-color: #808080 #404040;
+        }
+
+        /* Content styling */
+        .content-text {
+            margin-bottom: 15px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .scrollbar-demo {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="scrollbar-demo">
+            <h2 class="demo-title">🎨 Modern Gradient</h2>
+            <div class="scroll-content modern-scrollbar">
+                <div class="content-text">
+                    This is a modern gradient scrollbar with smooth transitions and hover effects. The scrollbar features a beautiful gradient background that changes on hover.
+                </div>
+                <div class="highlight">
+                    Custom CSS properties include gradient backgrounds, smooth transitions, and transform effects on hover for an enhanced user experience.
+                </div>
+                <div class="content-text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+                </div>
+                <div class="content-text">
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </div>
+                <div class="content-text">
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                </div>
+                <div class="content-text">
+                    Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+                </div>
+            </div>
+        </div>
+
+        <div class="scrollbar-demo">
+            <h2 class="demo-title">✨ Neon Glow</h2>
+            <div class="scroll-content neon-scrollbar">
+                <div class="content-text">
+                    Experience the futuristic neon glow scrollbar with animated lighting effects and cyberpunk aesthetics. Perfect for dark-themed applications.
+                </div>
+                <div class="highlight">
+                    Features include CSS animations, box-shadow effects, and gradient backgrounds that create a stunning neon glow effect.
+                </div>
+                <div class="content-text">
+                    The neon scrollbar uses CSS keyframe animations to create a pulsing glow effect that draws attention while maintaining usability.
+                </div>
+                <div class="content-text">
+                    Multiple box-shadow layers create depth and the illusion of light emanating from the scrollbar thumb element.
+                </div>
+                <div class="content-text">
+                    This design works particularly well in dark interfaces, gaming applications, or any project that needs a modern, high-tech aesthetic.
+                </div>
+                <div class="content-text">
+                    The hover state intensifies the glow effect, providing clear visual feedback to users when they interact with the scrollbar.
+                </div>
+            </div>
+        </div>
+
+        <div class="scrollbar-demo">
+            <h2 class="demo-title">🎯 Minimal Thin</h2>
+            <div class="scroll-content minimal-scrollbar">
+                <div class="content-text">
+                    A minimal, thin scrollbar design that stays out of the way while providing smooth scrolling functionality. Perfect for content-focused designs.
+                </div>
+                <div class="highlight">
+                    The minimal approach uses transparency, subtle colors, and thin dimensions to create an unobtrusive scrolling experience.
+                </div>
+                <div class="content-text">
+                    This scrollbar design philosophy prioritizes content over chrome, ensuring that the interface elements don't distract from the main content.
+                </div>
+                <div class="content-text">
+                    The thin profile takes up minimal space while still being easily accessible for users who need to scroll through content.
+                </div>
+                <div class="content-text">
+                    Hover states provide just enough visual feedback without being overwhelming or distracting from the reading experience.
+                </div>
+                <div class="content-text">
+                    Ideal for blogs, documentation sites, and any application where content readability is the primary concern.
+                </div>
+            </div>
+        </div>
+
+        <div class="scrollbar-demo">
+            <h2 class="demo-title">🔮 Glass Morphism</h2>
+            <div class="scroll-content glass-scrollbar">
+                <div class="content-text">
+                    A beautiful glass morphism scrollbar with backdrop blur effects and translucent styling. This modern design trend creates depth and visual interest.
+                </div>
+                <div class="highlight">
+                    Uses backdrop-filter: blur() and rgba transparency to achieve the frosted glass effect that's popular in modern UI design.
+                </div>
+                <div class="content-text">
+                    The glass morphism trend combines transparency, blur effects, and subtle borders to create elements that appear to float above the background.
+                </div>
+                <div class="content-text">
+                    This scrollbar style works exceptionally well with gradient backgrounds, images, or complex background patterns.
+                </div>
+                <div class="content-text">
+                    The translucent effect allows background colors and patterns to show through while maintaining clear visual hierarchy.
+                </div>
+                <div class="content-text">
+                    Perfect for modern applications, portfolios, and interfaces that want to showcase contemporary design trends.
+                </div>
+            </div>
+        </div>
+
+        <div class="scrollbar-demo">
+            <h2 class="demo-title">🌈 Rainbow Animation</h2>
+            <div class="scroll-content rainbow-scrollbar">
+                <div class="content-text">
+                    A vibrant rainbow scrollbar with continuous color-shifting animation. This playful design adds personality and energy to your interface.
+                </div>
+                <div class="highlight">
+                    Created using CSS gradients with multiple color stops and hue-rotate filter animation for smooth color transitions.
+                </div>
+                <div class="content-text">
+                    The rainbow effect cycles through the entire color spectrum, creating an engaging and dynamic visual element.
+                </div>
+                <div class="content-text">
+                    This type of animated scrollbar works well for creative portfolios, children's applications, or any project that benefits from vibrant colors.
+                </div>
+                <div class="content-text">
+                    The animation is smooth and continuous, ensuring it doesn't become distracting or interfere with the user experience.
+                </div>
+                <div class="content-text">
+                    CSS hue-rotate filter provides smooth color transitions without the need for complex keyframe definitions.
+                </div>
+            </div>
+        </div>
+
+        <div class="scrollbar-demo">
+            <h2 class="demo-title">🌙 Dark Theme</h2>
+            <div class="scroll-content dark-scrollbar">
+                <div class="content-text">
+                    A sophisticated dark theme scrollbar designed for dark mode interfaces. Features subtle gradients and refined hover states.
+                </div>
+                <div class="highlight">
+                    Carefully chosen dark colors and subtle gradients ensure good contrast while maintaining the dark aesthetic.
+                </div>
+                <div class="content-text">
+                    Dark themes have become increasingly popular for reducing eye strain and providing a premium, professional appearance.
+                </div>
+                <div class="content-text">
+                    This scrollbar complements dark interfaces perfectly, using appropriate contrast ratios for accessibility.
+                </div>
+                <div class="content-text">
+                    The gradient effect adds visual interest without being overwhelming, maintaining the sophisticated dark theme aesthetic.
+                </div>
+                <div class="content-text">
+                    Border styling and hover effects provide clear interaction feedback while staying true to the dark design language.
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
